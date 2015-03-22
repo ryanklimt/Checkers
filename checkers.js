@@ -59,11 +59,14 @@ function pieceType(player, startX, startY, endX, endY) {
 function handleMove(move) {
 	if(move<=gameLog.length) {
 		resetBoard();
+		$(".moves").empty();
 		for(var i=0;i<move;i++) {
 			var tmp = gameLog[i].split(" ");
+			var i2 = i + 1;
 			for(var j=0;j<tmp.length;j++) {
 				tmp[j] = parseInt(tmp[j]);
 			}
+			$(".moves").append("<li>[" + i2 + "] Player " + tmp[0] + ": " + tmp[1] + "-" + tmp[2] + " to " + tmp[3] + "-" + tmp[4] + "</li>");
 			playerLocations[tmp[3]][tmp[4]] = pieceType(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4]);
 			if(tmp.length>6) {
 				playerLocations[tmp[5]][tmp[6]] = 0;

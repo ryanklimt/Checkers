@@ -26,6 +26,12 @@
 	clear:left;
 }
 
+.moves {
+	list-style-type:none;
+	padding:0;
+	margin:0;
+}
+
 .chessboard {
 	width:400px;
 	border:5px solid;
@@ -62,6 +68,6 @@
 }
 
 .black {
-	background-color:black;
+	background-color:#999;
 	color:white;
 }
