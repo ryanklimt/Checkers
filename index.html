@@ -19,8 +19,16 @@
 			</form>
 		</div>
 		<div class="ui-content">
+			<form method="post">
+				<label for="speed">Speed:</label>
+				<input type="number" name="speed" id="speed" value="5" min="1" max="25">
+			</form>
+		</div>
+		<div class="ui-content">
 			<label>Moves:</label>
-			<ul class="moves"></ul>
+			<ul class="moves">
+				<li><em>None</em></li>
+			</ul>
 		</div>
 		<script src="//code.jquery.com/jquery.min.js"></script>
 		<script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>

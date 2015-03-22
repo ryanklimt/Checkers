@@ -60,6 +60,7 @@ function handleMove(move) {
 	if(move<=gameLog.length) {
 		resetBoard();
 		$(".moves").empty();
+		if(move == 0) $(".moves").append("<li><em>Empty</em></li>");
 		for(var i=0;i<move;i++) {
 			var tmp = gameLog[i].split(" ");
 			var i2 = i + 1;
@@ -105,7 +106,7 @@ function play() {
 			$('#play').button('refresh');
 			isPlaying = false;
 		}
-	}, 500)
+	}, 2500/$("#speed").val())
 }
 
 $('#play').click(function() {
@@ -125,6 +126,9 @@ $('#play').click(function() {
 $('#reset').click(function() {
 	$('#frame').val(0);
 	$('#frame').slider('refresh');
+	$(".moves").empty();
+	$(".moves").append("<li><em>Empty</em></li>");
+	currMove = 0;
 	resetBoard();
 	drawPlayers();
 });
