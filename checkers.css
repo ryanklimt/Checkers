@@ -1,0 +1,67 @@
+.chessboardHeader {
+	list-style-type:none;
+	float:left;
+	padding:0;
+	margin:0 5px 0 55px;
+}
+
+.chessboardSidebar {
+	list-style-type:none;
+	float:left;
+	clear:left;
+	padding:0;
+	margin:5px 0 5px 0;
+}
+
+.chessboardHeader li,
+.chessboardSidebar li {
+	float:left;
+	height:50px;
+	width:50px;
+	line-height:50px;
+	text-align:center;
+}
+
+.chessboardSidebar li {
+	clear:left;
+}
+
+.chessboard {
+	width:400px;
+	border:5px solid;
+	float:left;
+}
+
+.chessboard div {
+	width:50px;
+	height:50px;
+	display:inline-block;
+	background-image:url('checkers.png');
+	background-repeat:no-repeat;
+	background-position:-999px -999px;
+}
+
+.chessboard .p1 {
+	background-position:top left;
+}
+
+.chessboard .p2 {
+	background-position:bottom left;
+}
+
+.chessboard .k1 {
+	background-position:top right;
+}
+
+.chessboard .k2 {
+	background-position:bottom right;
+}
+
+.white {
+	background-color:white;
+}
+
+.black {
+	background-color:black;
+	color:white;
+}
