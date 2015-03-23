@@ -1,4 +1,5 @@
 var playerLocations = new Array();
+var letters = ['A','B','C','D','E','F','G','H'];
 var gameLog = new Array();
 var currMove = 0;
 var isPlaying = false;
@@ -6,7 +7,7 @@ var isPlaying = false;
 function createBoard() {
 	for(var i=0;i<8;i++) {
 		$('.checkersHeader').append('<li>'+i+'</li>');
-		$('.checkersSidebar').append('<li>'+i+'</li>');
+		$('.checkersSidebar').append('<li>'+letters[i]+'</li>');
 		for(var j=0;j<8;j++) {
 			var tmp = j+i*8;
 			var divClass = (tmp+i)%2 == 0 ? 'black' : 'white';
@@ -112,6 +113,7 @@ function play() {
 function fileUploaded() {
 	$('.checkersContainer + div').hide();
 	$('.checkers').show();
+	$('#file').val('');
 }
 
 $('#newUpload').click(function(e) {
