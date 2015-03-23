@@ -7,10 +7,19 @@
 		<link rel="stylesheet" href="checkers.css" type="text/css">
 	</head>
 	<body>
-		<ul class="chessboardHeader"></ul>
-		<ul class="chessboardSidebar"></ul>
-		<div class="chessboard"></div>
-		<div data-role="main" class="ui-content">
+		<h1>Checkers Game Viewer <span id="newUpload" class="checkers">New Game</span></h1>
+		<div class="checkersContainer checkers">
+			<ul class="checkersHeader"></ul>
+			<ul class="checkersSidebar"></ul>
+			<div class="checkersBoard"></div>
+		</div>
+		<div class="ui-content">
+			<form method="post">
+				<label for="file">Upload Checkers Log:</label>
+				<input type="file" name="file" id="file" accept=".txt">
+			</form>
+		</div>
+		<div data-role="main" class="ui-content checkers">
 			<form method="post">
 				<label for="frame">Frame:</label>
 				<input type="range" name="frame" id="frame" value="0" min="0" max="100" data-show-value="true" oninput="handleMove(this.value)" onchange="handleMove(this.value)">
@@ -18,13 +27,13 @@
 				<input type="button" name="reset" id="reset" value="Reset">
 			</form>
 		</div>
-		<div class="ui-content">
+		<div class="ui-content checkers">
 			<form method="post">
 				<label for="speed">Speed:</label>
 				<input type="number" name="speed" id="speed" value="5" min="1" max="25">
 			</form>
 		</div>
-		<div class="ui-content">
+		<div class="ui-content checkers">
 			<label>Moves:</label>
 			<ul class="moves">
 				<li><em>None</em></li>

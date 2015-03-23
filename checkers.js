@@ -5,13 +5,13 @@ var isPlaying = false;
 
 function createBoard() {
 	for(var i=0;i<8;i++) {
-		$('.chessboardHeader').append('<li>'+i+'</li>');
-		$('.chessboardSidebar').append('<li>'+i+'</li>');
+		$('.checkersHeader').append('<li>'+i+'</li>');
+		$('.checkersSidebar').append('<li>'+i+'</li>');
 		for(var j=0;j<8;j++) {
 			var tmp = j+i*8;
 			var divClass = (tmp+i)%2 == 0 ? 'black' : 'white';
 			var divId = 'place' + i + '' + j + '';
-			$('.chessboard').append('<div class="' + divClass + '" id="' + divId + '"></div>');	
+			$('.checkersBoard').append('<div class="' + divClass + '" id="' + divId + '"></div>');	
 		}
 	}
 }
@@ -109,6 +109,16 @@ function play() {
 	}, 2500/$("#speed").val())
 }
 
+function fileUploaded() {
+	$('.checkersContainer + div').hide();
+	$('.checkers').show();
+}
+
+$('#newUpload').click(function(e) {
+	$('.checkers').hide();
+	$('.checkersContainer + div').show();
+});
+
 $('#play').click(function() {
 	if(!isPlaying) {
 		$('#play').attr('value','Pause');
@@ -133,14 +143,23 @@ $('#reset').click(function() {
 	drawPlayers();
 });
 
+$('#file').change(function(e) {
+	if($('#file').prop('files')[0]) {
+		$.ajax({
+			url: $('#file').prop('files')[0]['name'],
+			success: function(data) {
+				gameLog = data.split('\n'),
+				$('#frame').prop({
+					max: gameLog.length
+				}).slider("refresh");
+				fileUploaded();
+			}
+		})
+	}
+});
+
 $(document).ready(function() {
 	createBoard();
 	resetBoard();
 	drawPlayers();
-	$.get('checkers.txt', function(data) {
-		gameLog = data.split('\n');
-		$('#frame').prop({
-			max: gameLog.length
-		}).slider("refresh");
-	});
 });

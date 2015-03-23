@@ -1,44 +1,53 @@
-.chessboardHeader {
+h1 {
+	width:410px;
+	margin:10px 5px 0 55px;
+	text-align:center;
+}
+
+li {
 	list-style-type:none;
+}
+
+.checkersContainer {
 	float:left;
+	width:460px;
+}
+
+.checkersHeader {
+	float:left;
+	height:50px;
 	padding:0;
 	margin:0 5px 0 55px;
 }
 
-.chessboardSidebar {
-	list-style-type:none;
+.checkersSidebar {
 	float:left;
-	clear:left;
+	width:50px;
 	padding:0;
 	margin:5px 0 5px 0;
 }
 
-.chessboardHeader li,
-.chessboardSidebar li {
+.checkersHeader li,
+.checkersSidebar li {
 	float:left;
-	height:50px;
 	width:50px;
+	height:50px;
 	line-height:50px;
 	text-align:center;
 }
 
-.chessboardSidebar li {
-	clear:left;
-}
-
 .moves {
-	list-style-type:none;
 	padding:0;
 	margin:0;
 }
 
-.chessboard {
+.checkersBoard {
+	float:left;
 	width:400px;
 	border:5px solid;
-	float:left;
 }
 
-.chessboard div {
+.checkersboard div {
 	width:50px;
 	height:50px;
 	display:inline-block;
@@ -47,19 +56,19 @@
 	background-position:-999px -999px;
 }
 
-.chessboard .p1 {
+.checkersBoard .p1 {
 	background-position:top left;
 }
 
-.chessboard .p2 {
+.checkersBoard .p2 {
 	background-position:bottom left;
 }
 
-.chessboard .k1 {
+.checkersBoard .k1 {
 	background-position:top right;
 }
 
-.chessboard .k2 {
+.checkersBoard .k2 {
 	background-position:bottom right;
 }
 
@@ -70,4 +79,12 @@
 .black {
 	background-color:#999;
 	color:white;
+}
+
+.checkers {
+	display:none;
+}
+
+#newUpload {
+	cursor:pointer;
 }
