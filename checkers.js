@@ -47,11 +47,10 @@ function drawPlayers() {
 	}
 }
 
-function pieceType(player, startX, startY, endX, endY) {
-	var piece = playerLocations[startX][startY];
-	if(player == 1 && endX == 7) {
+function pieceType(piece, endX) {
+	if((piece == 1 || piece == 2) && endX == 'H') {
 		piece = 2;
-	} else if(player == 2 && endX == 0) {
+	} else if((piece == 3 || piece == 4) && endX == 'A') {
 		piece = 4;
 	}
 	return piece;
@@ -60,35 +59,31 @@ function pieceType(player, startX, startY, endX, endY) {
 function handleMove(move) {
 	if(move<=gameLog.length) {
 		resetBoard();
-		$(".moves").empty();
-		if(move == 0) $(".moves").append("<li><em>Empty</em></li>");
+		$('.moves').empty();
+		if(move == 0) $('.moves').append('<li><em>Empty</em></li>');
 		for(var i=0;i<move;i++) {
-			var tmp = gameLog[i].split(" ");
-			var i2 = i + 1;
-			for(var j=0;j<tmp.length;j++) {
-				tmp[j] = parseInt(tmp[j]);
+			var tmp = gameLog[i].split(' ');
+			var moves = tmp[0].split(':');
+			$('.moves').prepend('<li>[' + (i+1) + '] Player ' + (i%2+1) + ': ' + tmp[0] + '</li>');
+
+			for(var j=0;j<moves.length-1;j++) {
+				var startXL = moves[j].charAt(0);
+				var startX = letters.indexOf(startXL);
+				var startY = moves[j].charAt(1);
+				var endXL = moves[j+1].charAt(0);
+				var endX = letters.indexOf(endXL);
+				var endY = moves[j+1].charAt(1);
+				var piece = playerLocations[startX][startY];
+				playerLocations[endX][endY] = pieceType(piece,endXL);
+				playerLocations[startX][startY] = 0;
 			}
-			$(".moves").prepend("<li>[" + i2 + "] Player " + tmp[0] + ": " + tmp[1] + "-" + tmp[2] + " to " + tmp[3] + "-" + tmp[4] + "</li>");
-			playerLocations[tmp[3]][tmp[4]] = pieceType(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4]);
-			if(tmp.length>6) {
-				playerLocations[tmp[5]][tmp[6]] = 0;
-				if(tmp.length>10) {
-					playerLocations[tmp[9]][tmp[10]] = 0;
-					playerLocations[tmp[3]][tmp[4]] = 0;
-					playerLocations[tmp[7]][tmp[8]] = pieceType(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4]);
-					if(tmp.length>14) {
-						playerLocations[tmp[13]][tmp[14]] = 0;
-						playerLocations[tmp[7]][tmp[8]] = 0;
-						playerLocations[tmp[11]][tmp[12]] = pieceType(tmp[0],tmp[3],tmp[4],tmp[7],tmp[8]);
-						if(tmp.length>18) {
-							playerLocations[tmp[17]][tmp[18]] = 0;
-							playerLocations[tmp[11]][tmp[12]] = 0;
-							playerLocations[tmp[15]][tmp[16]] = pieceType(tmp[0],tmp[7],tmp[8],tmp[11],tmp[12]);
-						}
-					}
-				}
+
+			for(var j=1;j<tmp.length;j++) {
+				var delXL = tmp[j].charAt(0);
+				var delX = letters.indexOf(delXL);
+				var delY = tmp[j].charAt(1);
+				playerLocations[delX][delY] = 0;
 			}
-			playerLocations[tmp[1]][tmp[2]] = 0;
 		}
 		drawPlayers();
 	}
@@ -107,16 +102,16 @@ function play() {
 			$('#play').button('refresh');
 			isPlaying = false;
 		}
-	}, 2500/$("#speed").val())
+	}, 2500/$('#speed').val())
 }
 
 function fileUploaded() {
 	$('.checkersContainer + div').hide();
 	$('.checkers').show();
-	$('#file').val('');
 }
 
 $('#newUpload').click(function(e) {
+	$('#file').val('');
 	$('.checkers').hide();
 	$('.checkersContainer + div').show();
 });
@@ -138,8 +133,8 @@ $('#play').click(function() {
 $('#reset').click(function() {
 	$('#frame').val(0);
 	$('#frame').slider('refresh');
-	$(".moves").empty();
-	$(".moves").append("<li><em>Empty</em></li>");
+	$('.moves').empty();
+	$('.moves').append('<li><em>Empty</em></li>');
 	currMove = 0;
 	resetBoard();
 	drawPlayers();
@@ -153,7 +148,7 @@ $('#file').change(function(e) {
 				gameLog = data.split('\n'),
 				$('#frame').prop({
 					max: gameLog.length
-				}).slider("refresh");
+				}).slider('refresh');
 				fileUploaded();
 			}
 		})

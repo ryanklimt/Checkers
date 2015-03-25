@@ -1,7 +1,12 @@
 h1 {
-	width:410px;
-	margin:10px 5px 0 55px;
-	text-align:center;
+	margin:10px 5px 0 50px;
+}
+
+h1 span {
+	cursor:pointer;
+	float:right;
+	font-size:0.5em;
+	line-height:41px;
 }
 
 li {
@@ -11,6 +16,10 @@ li {
 .checkersContainer {
 	float:left;
 	width:460px;
+}
+
+.checkersContainer + .ui-content {
+	margin:0 34px;
 }
 
 .checkersHeader {
@@ -83,8 +92,4 @@ li {
 
 .checkers {
 	display:none;
-}
-
-#newUpload {
-	cursor:pointer;
 }
