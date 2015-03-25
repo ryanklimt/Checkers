@@ -64,7 +64,11 @@ function handleMove(move) {
 		for(var i=0;i<move;i++) {
 			var tmp = gameLog[i].split(' ');
 			var moves = tmp[0].split(':');
+			var animate = false;
+
 			$('.moves').prepend('<li>[' + (i+1) + '] Player ' + (i%2+1) + ': ' + tmp[0] + '</li>');
+
+			if(i==move-1 && moves.length > 2) animate = true;
 
 			for(var j=0;j<moves.length-1;j++) {
 				var startXL = moves[j].charAt(0);
@@ -84,9 +88,19 @@ function handleMove(move) {
 				var delY = tmp[j].charAt(1);
 				playerLocations[delX][delY] = 0;
 			}
+			if(animate) playMultipleMove(tmp,moves,0);
 		}
 		drawPlayers();
 	}
+}
+
+function playMultipleMove(tmp,moves,moveNum) {
+	setTimeout(function() {
+		if(moveNum<moves.length-1) {
+			playMultipleMove(tmp,moves,moveNum);
+		}
+		moveNum++;
+	}, 2500/$('#speed').val())
 }
 
 function play() {
