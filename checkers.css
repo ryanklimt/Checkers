@@ -48,6 +48,9 @@ li {
 .moves {
 	padding:0;
 	margin:0;
+	max-height:250px;
+	width:50%;
+	overflow-y:scroll;
 }
 
 .checkersBoard {
