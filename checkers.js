@@ -3,6 +3,7 @@ var letters = ['A','B','C','D','E','F','G','H'];
 var gameLog = new Array();
 var currMove = 0;
 var isPlaying = false;
+var isDoubleJumping = false;
 
 function createBoard() {
 	for(var i=0;i<8;i++) {
@@ -57,66 +58,110 @@ function pieceType(piece, endX) {
 }
 
 function handleMove(move) {
-	if(move<=gameLog.length) {
-		resetBoard();
-		$('.moves').empty();
-		if(move == 0) $('.moves').append('<li><em>Empty</em></li>');
-		for(var i=0;i<move;i++) {
+	currMove = move;
+	isDoubleJumping = false;
+	resetBoard();
+	$('.moves').empty();
+	
+	if(currMove == 0) {
+		$('.moves').append('<li><em>Empty</em></li>');
+	} else if(currMove<=gameLog.length) {
+		for(var i=0;i<currMove;i++) {
 			var tmp = gameLog[i].split(' ');
 			var moves = tmp[0].split(':');
-			var animate = false;
+			var animating = false;
 
 			$('.moves').prepend('<li>[' + (i+1) + '] Player ' + (i%2+1) + ': ' + tmp[0] + '</li>');
 
-			if(i==move-1 && moves.length > 2) animate = true;
+			if(i==currMove-1 && moves.length > 2) animating = true;
 
-			for(var j=0;j<moves.length-1;j++) {
-				var startXL = moves[j].charAt(0);
+			if(animating) {
+				var startXL = moves[0].charAt(0);
 				var startX = letters.indexOf(startXL);
-				var startY = moves[j].charAt(1);
-				var endXL = moves[j+1].charAt(0);
+				var startY = moves[0].charAt(1);
+				var endXL = moves[1].charAt(0);
 				var endX = letters.indexOf(endXL);
-				var endY = moves[j+1].charAt(1);
+				var endY = moves[1].charAt(1);
 				var piece = playerLocations[startX][startY];
+				var delXL = tmp[1].charAt(0);
+				var delX = letters.indexOf(delXL);
+				var delY = tmp[1].charAt(1);
 				playerLocations[endX][endY] = pieceType(piece,endXL);
 				playerLocations[startX][startY] = 0;
-			}
-
-			for(var j=1;j<tmp.length;j++) {
-				var delXL = tmp[j].charAt(0);
-				var delX = letters.indexOf(delXL);
-				var delY = tmp[j].charAt(1);
 				playerLocations[delX][delY] = 0;
+				isDoubleJumping = true;
+				playMultipleMove(tmp,moves,1);
+			} else {
+				for(var j=0;j<moves.length-1;j++) {
+					var startXL = moves[j].charAt(0);
+					var startX = letters.indexOf(startXL);
+					var startY = moves[j].charAt(1);
+					var endXL = moves[j+1].charAt(0);
+					var endX = letters.indexOf(endXL);
+					var endY = moves[j+1].charAt(1);
+					var piece = playerLocations[startX][startY];
+					playerLocations[endX][endY] = pieceType(piece,endXL);
+					playerLocations[startX][startY] = 0;
+				}
+				for(var j=1;j<tmp.length;j++) {
+					var delXL = tmp[j].charAt(0);
+					var delX = letters.indexOf(delXL);
+					var delY = tmp[j].charAt(1);
+					playerLocations[delX][delY] = 0;
+				}
 			}
-			if(animate) playMultipleMove(tmp,moves,0);
 		}
-		drawPlayers();
 	}
+	drawPlayers();
 }
 
 function playMultipleMove(tmp,moves,moveNum) {
 	setTimeout(function() {
-		if(moveNum<moves.length-1) {
+		if(moveNum<moves.length-1 && isDoubleJumping) {
+			var startXL = moves[moveNum].charAt(0);
+			var startX = letters.indexOf(startXL);
+			var startY = moves[moveNum].charAt(1);
+			var endXL = moves[moveNum+1].charAt(0);
+			var endX = letters.indexOf(endXL);
+			var endY = moves[moveNum+1].charAt(1);
+			
+			var delXL = tmp[moveNum+1].charAt(0);
+			var delX = letters.indexOf(delXL);
+			var delY = tmp[moveNum+1].charAt(1);
+			
+			var piece = playerLocations[startX][startY];
+			
+			playerLocations[endX][endY] = pieceType(piece,endXL);
+			playerLocations[startX][startY] = 0;
+			playerLocations[delX][delY] = 0;
+			
+			drawPlayers();
+			
+			moveNum++;
 			playMultipleMove(tmp,moves,moveNum);
+		} else {
+			isDoubleJumping = false;
 		}
-		moveNum++;
-	}, 2500/$('#speed').val())
+	}, 2500/$('#speed').val());
 }
 
-function play() {
-	setTimeout(function() {
-		currMove++;
-		handleMove(currMove);
-		$('#frame').val(currMove);
-		$('#frame').slider('refresh');
-		if(currMove<=gameLog.length && isPlaying) {
-			play();
-		} else {
-			$('#play').attr('value','Play');
-			$('#play').button('refresh');
-			isPlaying = false;
-		}
-	}, 2500/$('#speed').val())
+function play(waitTime) {
+	if(gameLog[currMove] != null && isPlaying && currMove<=gameLog.length) {
+		setTimeout(function() {
+			var addTime = 1;
+			var moves = gameLog[currMove].split(" ")[0].split(":").length;
+			if(moves > 2) addTime = moves-1;
+			currMove++;
+			handleMove(currMove);
+			$('#frame').val(currMove);
+			$('#frame').slider('refresh');
+			play(addTime);
+		}, (2500/$('#speed').val())*waitTime);
+	} else {
+		$('#play').attr('value','Play');
+		$('#play').button('refresh');
+		isPlaying = false;
+	}
 }
 
 function fileUploaded() {
@@ -131,12 +176,12 @@ $('#newUpload').click(function(e) {
 });
 
 $('#play').click(function() {
-	if(!isPlaying) {
+	currMove = $('#frame').val();
+	if(!isPlaying && currMove < gameLog.length) {
 		$('#play').attr('value','Pause');
 		$('#play').button('refresh');
 		isPlaying = true;
-		currMove = $('#frame').val();
-		play();
+		play(1);
 	} else {
 		$('#play').attr('value','Play');
 		$('#play').button('refresh');
@@ -155,6 +200,7 @@ $('#reset').click(function() {
 });
 
 $('#file').change(function(e) {
+	resetBoard();
 	if($('#file').prop('files')[0]) {
 		$.ajax({
 			url: $('#file').prop('files')[0]['name'],
