@@ -46,6 +46,16 @@ li {
 	text-align:center;
 }
 
+.ui-mobile label {
+	font-weight:bold;
+}
+
+.ui-mobile div + label {
+	border-top:1px solid #ddd;
+	margin-top:.8em;
+	padding-top:.4em;
+}
+
 .moves {
 	padding:0;
 	margin:0;

@@ -21,23 +21,17 @@
 		</div>
 		<div data-role="main" class="ui-content checkers">
 			<form method="post">
-				<label for="frame">Frame:</label>
+				<label for="frame">Moves:</label>
 				<input type="range" name="frame" id="frame" value="0" min="0" max="100" data-show-value="true" oninput="handleMove(this.value)" onchange="handleMove(this.value)">
 				<input type="button" name="play" id="play" value="Play">
 				<input type="button" name="reset" id="reset" value="Reset">
-			</form>
-		</div>
-		<div class="ui-content checkers">
-			<form method="post">
 				<label for="speed">Speed:</label>
 				<input type="number" name="speed" id="speed" value="5" min="1" max="25">
+				<label>Move Log:</label>
+				<ul class="moves">
+					<li><em>None</em></li>
+				</ul>
 			</form>
-		</div>
-		<div class="ui-content checkers">
-			<label>Moves:</label>
-			<ul class="moves">
-				<li><em>None</em></li>
-			</ul>
 		</div>
 		<script src="//code.jquery.com/jquery.min.js"></script>
 		<script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
