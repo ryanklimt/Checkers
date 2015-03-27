@@ -7,6 +7,7 @@ h1 span {
 	float:right;
 	font-size:0.5em;
 	line-height:41px;
+	margin-right:5px;
 }
 
 li {
@@ -49,8 +50,7 @@ li {
 	padding:0;
 	margin:0;
 	max-height:250px;
-	width:50%;
-	overflow-y:scroll;
+	overflow-y:auto;
 }
 
 .checkersBoard {

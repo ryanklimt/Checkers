@@ -49,11 +49,8 @@ function drawPlayers() {
 }
 
 function pieceType(piece, endX) {
-	if((piece == 1 || piece == 2) && endX == 'H') {
-		piece = 2;
-	} else if((piece == 3 || piece == 4) && endX == 'A') {
-		piece = 4;
-	}
+	if((piece == 1 || piece == 2) && endX == 'H') piece = 2;
+	if((piece == 3 || piece == 4) && endX == 'A') piece = 4;
 	return piece;
 }
 
@@ -69,13 +66,10 @@ function handleMove(move) {
 		for(var i=0;i<currMove;i++) {
 			var tmp = gameLog[i].split(' ');
 			var moves = tmp[0].split(':');
-			var animating = false;
 
 			$('.moves').prepend('<li>[' + (i+1) + '] Player ' + (i%2+1) + ': ' + tmp[0] + '</li>');
 
-			if(i==currMove-1 && moves.length > 2) animating = true;
-
-			if(animating) {
+			if(i==currMove-1 && moves.length > 2) {
 				var startXL = moves[0].charAt(0);
 				var startX = letters.indexOf(startXL);
 				var startY = moves[0].charAt(1);
